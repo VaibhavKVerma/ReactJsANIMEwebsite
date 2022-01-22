@@ -31,7 +31,7 @@ const Latest = () => {
     setInterval(() => {
       setTime(new Date().toLocaleTimeString());
     }, 1000);
-  }, [time]);
+  }, [time, results, day]);
 
   const dayTable = days.map((dayes, idx) => {
     return (
