@@ -1,20 +1,20 @@
 import Anime from "./Anime/Anime";
-import Manga from "./Manga/Manga";
+// import Manga from "./Manga/Manga";
 
-const renderAnime = () => {
-  if (
-    window.location.pathname === "/anime" ||
-    window.location.pathname === "/"
-  ) {
-    return <Anime />;
-  }
-};
+// const renderAnime = () => {
+//   if (
+//     window.location.pathname === "/anime" ||
+//     window.location.pathname === "/"
+//   ) {
+//     return <Anime />;
+//   }
+// };
 
-const renderManga = () => {
-  if (window.location.pathname === "/manga") {
-    return <Manga />;
-  }
-};
+// const renderManga = () => {
+//   if (window.location.pathname === "/manga") {
+//     return <Manga />;
+//   }
+// };
 
 const App = () => {
   return (
@@ -22,16 +22,17 @@ const App = () => {
       <h1>
         <a href={`${window.origin}`}> My Anime World</a>
       </h1>
-      <div className="ui two item menu">
-        <a href={`${window.location.origin}/anime`} className={`item`}>
+      <div className="ui one item menu">
+        <a href={`${window.location.origin}`} className={`item`}>
           Anime World
         </a>
-        <a href={`${window.location.origin}/manga`} className={`item`}>
+        {/* <a href={`${window.location.origin}/manga`} className={`item`}>
           Manga World
-        </a>
+        </a> */}
       </div>
-      {renderAnime()}
-      {renderManga()}
+      <Anime />
+      {/* {renderAnime()}
+      {renderManga()} */}
     </div>
   );
 };
