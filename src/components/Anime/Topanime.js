@@ -1,12 +1,21 @@
 import { useState, useEffect } from "react";
 import api from "../api";
+import { Pagination } from "semantic-ui-react";
 
 const Topanime = () => {
   const [results, setResult] = useState([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    api.get("top/anime").then((res) => setResult(res.data.top));
-  }, []);
+    setResult([]);
+    api.get(`top/anime/${page}`).then((res) => setResult(res.data.top));
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [page]);
+
   const renderedList = results.map((result) => {
     return (
       <tr key={result.rank}>
@@ -30,6 +39,13 @@ const Topanime = () => {
       </tr>
     );
   });
+  if (results.length === 0) {
+    return (
+      <div className="ui active inverted dimmer">
+        <div className="ui text loader">Loading</div>
+      </div>
+    );
+  }
   return (
     <div>
       <table className="ui celled padded table">
@@ -43,6 +59,13 @@ const Topanime = () => {
         </thead>
         <tbody>{renderedList}</tbody>
       </table>
+      <div className="ui container center aligned">
+        <Pagination
+          onPageChange={(e) => setPage(Number(e.target.innerText))}
+          defaultActivePage={page}
+          totalPages={10}
+        />
+      </div>
     </div>
   );
 };

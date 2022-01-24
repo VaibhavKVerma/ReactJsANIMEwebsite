@@ -20,7 +20,7 @@ const Search = () => {
       setResult([]);
     }
   }, [search]);
-  //   console.log(results);
+
   const renderedList = results.map((result, idx) => {
     if (idx >= 10) return null;
     return (

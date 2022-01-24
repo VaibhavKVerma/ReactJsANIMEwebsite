@@ -5,9 +5,17 @@ import { Pagination } from "semantic-ui-react";
 const Topmanga = () => {
   const [results, setResult] = useState([]);
 
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
-    api.get("top/manga").then((res) => setResult(res.data.top));
-  }, []);
+    setResult([]);
+    api.get(`top/manga/${page}`).then((res) => setResult(res.data.top));
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [page]);
   const renderedList = results.map((result) => {
     return (
       <tr key={result.rank}>
@@ -31,6 +39,13 @@ const Topmanga = () => {
       </tr>
     );
   });
+  if (results.length === 0) {
+    return (
+      <div className="ui active inverted dimmer">
+        <div className="ui text loader">Loading</div>
+      </div>
+    );
+  }
   return (
     <div>
       <table className="ui celled padded table">
@@ -44,15 +59,13 @@ const Topmanga = () => {
         </thead>
         <tbody>{renderedList}</tbody>
       </table>
-      <div className=""></div>
-      <Pagination
-        boundaryRange={0}
-        defaultActivePage={1}
-        firstItem={null}
-        lastItem={null}
-        siblingRange={1}
-        totalPages={20}
-      />
+      <div className="ui container center aligned">
+        <Pagination
+          onPageChange={(e) => setPage(Number(e.target.innerText))}
+          defaultActivePage={page}
+          totalPages={10}
+        />
+      </div>
     </div>
   );
 };

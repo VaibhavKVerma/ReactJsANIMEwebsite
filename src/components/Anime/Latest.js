@@ -28,9 +28,13 @@ const Latest = () => {
       const set = days[day].toLowerCase();
       setData(results[set]);
     }
-    setInterval(() => {
+    const run = setInterval(() => {
       setTime(new Date().toLocaleTimeString());
     }, 1000);
+
+    return () => {
+      clearInterval(run);
+    };
   }, [time, results, day]);
 
   const dayTable = days.map((dayes, idx) => {
@@ -79,7 +83,6 @@ const Latest = () => {
     if (data.length !== 0) {
       return <div className="ui link cards">{renderedList}</div>;
     } else {
-      console.log(1);
       return (
         <div className="ui active inverted dimmer">
           <div className="ui text loader">Loading</div>
