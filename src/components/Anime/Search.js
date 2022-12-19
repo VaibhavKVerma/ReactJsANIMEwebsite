@@ -8,13 +8,13 @@ const Search = () => {
   useEffect(() => {
     if (search.length > 2) {
       api
-        .get(`/search/anime`, {
+        .get(`/anime`, {
           params: {
             q: search,
           },
         })
         .then((res) => {
-          setResult(res.data.results);
+          setResult(res.data.data);
         });
     } else {
       setResult([]);
@@ -32,12 +32,14 @@ const Search = () => {
         <img
           alt={result.title}
           className="ui small image"
-          src={result.image_url}
+          src={result.images.jpg.image_url}
         />
-        <div className="content">
-          <div className="header">{result.title}</div>
+        <div style={{ color: "white" }} className="content">
+          <div className="header" style={{ color: "rgb(253, 138, 31)" }}>
+            {result.title}
+          </div>
           <br />
-          Rated : {result.rated}
+          Age Rating : {result.rating}
           <br />
           Score : {result.score}
           <br />

@@ -2,14 +2,15 @@ import { useState, useEffect } from "react";
 import api from "../api";
 import { Pagination } from "semantic-ui-react";
 
+// const options = ["", "?filter=bypopularity", "?filter=favorite"];
+
 const Topmanga = () => {
   const [results, setResult] = useState([]);
-
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     setResult([]);
-    api.get(`top/manga/${page}`).then((res) => setResult(res.data.top));
+    api.get(`top/manga?page=${page}`).then((res) => setResult(res.data.data));
     window.scrollTo({
       top: 0,
       left: 0,
@@ -27,7 +28,7 @@ const Topmanga = () => {
             <img
               alt="NA"
               className="ui huge rounded image"
-              src={result.image_url}
+              src={result.images.jpg.small_image_url}
             ></img>
             <div className="content">
               <a href={result.url}>{result.title}</a>
@@ -48,7 +49,7 @@ const Topmanga = () => {
   }
   return (
     <div>
-      <table className="ui celled padded table">
+      <table className="ui unstackable celled padded table">
         <thead>
           <tr>
             <th className="single line">Rank</th>

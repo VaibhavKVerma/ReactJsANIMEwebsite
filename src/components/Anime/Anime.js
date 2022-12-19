@@ -30,22 +30,21 @@ const Anime = () => {
           style={{ cursor: "pointer" }}
           className={`${active === 0 ? "active" : ""} item`}
         >
-          Search Anime
+          <h3>Search Anime</h3>
         </div>
         <div
           onClick={() => setActive(1)}
           style={{ cursor: "pointer" }}
           className={`${active === 1 ? "active" : ""} item`}
         >
-          {" "}
-          Top anime
+          <h3>Top anime</h3>
         </div>
         <div
           onClick={() => setActive(2)}
           style={{ cursor: "pointer" }}
           className={`${active === 2 ? "active" : ""} item`}
         >
-          Latest Anime
+          <h3>Latest Anime</h3>
         </div>
       </div>
       {checkSearch()}

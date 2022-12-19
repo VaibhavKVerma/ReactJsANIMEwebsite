@@ -13,29 +13,17 @@ const days = [
 ];
 
 const Latest = () => {
-  const [results, setResult] = useState(null);
-  const [time, setTime] = useState(new Date().toLocaleTimeString());
   const [day, setDay] = useState(date.getDay());
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    if (results === null) {
-      api.get("schedule").then((res) => {
-        setResult(res.data);
-      });
-    }
-    if (results) {
+    async function fetchData() {
       const set = days[day].toLowerCase();
-      setData(results[set]);
+      const data = (await api.get(`schedules?filter=${set}`)).data.data;
+      setData(data);
     }
-    const run = setInterval(() => {
-      setTime(new Date().toLocaleTimeString());
-    }, 1000);
-
-    return () => {
-      clearInterval(run);
-    };
-  }, [time, results, day]);
+    fetchData();
+  }, [day]);
 
   const dayTable = days.map((dayes, idx) => {
     return (
@@ -56,19 +44,15 @@ const Latest = () => {
     return (
       <a href={singledata.url} key={singledata.title} className="card">
         <div className="image">
-          <img alt={"img"} src={singledata.image_url} />
+          <img alt={"img"} src={singledata.images.jpg.image_url} />
         </div>
         <div className="content">
           <div className="header">{singledata.title}</div>
-          <div className="description">
-            {singledata.synopsis.length > 200
-              ? singledata.synopsis.substring(0, 200) + "..."
-              : singledata.synopsis}
-          </div>
+          <div className="description">{singledata.synopsis}</div>
         </div>
         <div className="extra content">
           <span className="right floated">
-            Airing: {String(singledata.airing_start).substring(0, 10)}
+            Airing: {String(singledata.aired.string).slice(0, -5)}
           </span>
           <span>
             {singledata.members}
@@ -80,7 +64,7 @@ const Latest = () => {
   });
 
   const loading = () => {
-    if (data.length !== 0) {
+    if (data === null || data.length !== 0) {
       return <div className="ui link cards">{renderedList}</div>;
     } else {
       return (
@@ -92,12 +76,7 @@ const Latest = () => {
   };
 
   return (
-    <div>
-      <div>
-        Date : {date.toDateString()}
-        <br /> Time : {time}
-      </div>
-      <br></br>
+    <div style={{ backgroundColor: "white" }}>
       <div className="ui grid">
         <div className="four wide column">
           <div className="ui vertical fluid tabular menu">{dayTable}</div>

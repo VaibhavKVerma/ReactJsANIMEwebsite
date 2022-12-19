@@ -2,13 +2,17 @@ import { useState, useEffect } from "react";
 import api from "../api";
 import { Pagination } from "semantic-ui-react";
 
+// const options = ["", "/bypopularity", "/favorite"];
+
 const Topanime = () => {
   const [results, setResult] = useState([]);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     setResult([]);
-    api.get(`top/anime/${page}`).then((res) => setResult(res.data.top));
+    api.get(`top/anime?page=${page}`).then((res) => {
+      setResult(res.data.data);
+    });
     window.scrollTo({
       top: 0,
       left: 0,
@@ -16,18 +20,20 @@ const Topanime = () => {
     });
   }, [page]);
 
-  const renderedList = results.map((result) => {
+  const renderedList = results.map((result, idx) => {
     return (
-      <tr key={result.rank}>
+      <tr key={idx + 1}>
         <td>
-          <h2 className="ui center aligned header">{result.rank}</h2>
+          <h2 className="ui center aligned header">
+            {(page - 1) * 25 + (idx + 1)}
+          </h2>
         </td>
         <td>
           <h4 className="ui image header">
             <img
               alt="NA"
               className="ui huge rounded image"
-              src={result.image_url}
+              src={result.images.jpg.small_image_url}
             ></img>
             <div className="content">
               <a href={result.url}>{result.title}</a>
@@ -48,7 +54,7 @@ const Topanime = () => {
   }
   return (
     <div>
-      <table className="ui celled padded table">
+      <table className="ui unstackable celled padded table">
         <thead>
           <tr>
             <th className="single line">Rank</th>

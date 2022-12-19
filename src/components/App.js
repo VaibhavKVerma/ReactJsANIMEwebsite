@@ -15,8 +15,15 @@ const App = () => {
 
   return (
     <div className="ui container">
-      <h1>
-        <a href={`${window.origin}`}> My Anime World</a>
+      <h1
+        style={{
+          fontFamily: "Pokemon Solid, sans-serif",
+          letterSpacing: "5px",
+        }}
+      >
+        <a style={{ color: "white" }} href={`${window.origin}`}>
+          MY ANIME WORLD
+        </a>
       </h1>
       <div className="ui two item menu">
         <div
@@ -24,7 +31,7 @@ const App = () => {
           style={{ cursor: "pointer" }}
           className={`${active === 0 ? "active" : ""} item`}
         >
-          Anime World
+          <h2>Anime World</h2>
         </div>
         <div
           href="#"
@@ -32,7 +39,7 @@ const App = () => {
           style={{ cursor: "pointer" }}
           className={`${active === 1 ? "active" : ""} item`}
         >
-          Manga World
+          <h2>Manga World</h2>
         </div>
       </div>
       {renderAnime()}
